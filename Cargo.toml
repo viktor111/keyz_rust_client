@@ -1,6 +1,6 @@
 [package]
 name = "keyz_rust_client"
-version = "1.0.2"
+version = "1.0.3"
 edition = "2021"
 description = "keyz client for Rust"
 license = "MIT"
