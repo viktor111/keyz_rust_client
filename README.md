@@ -3,7 +3,7 @@ Rust client for keyz
 # Getting started
 - Import
   ``` rust
-  use crate::client::connection::Keyz;
+  use keyz_rust_client::{ Keyz };
   ```
 - Initialize the connection to running keyz server
   ``` rust
