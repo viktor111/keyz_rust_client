@@ -80,7 +80,6 @@ impl Keyz {
         let close_msg = "CLOSE";
         Self::send_message(self, close_msg).await?;
         let response = Self::read_message(self).await?;
-        println!("{}", response);
         let mut stream = self.stream.lock().await;
         stream.shutdown().await?;
         Ok(())
