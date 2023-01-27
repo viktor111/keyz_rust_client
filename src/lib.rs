@@ -1,4 +1,4 @@
-mod client;
+pub mod client;
 
 #[cfg(test)]
 mod tests {
