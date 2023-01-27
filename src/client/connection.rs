@@ -71,6 +71,20 @@ impl Keyz {
         Ok(())
     }
 
+    async fn read_message(&self) -> Result<String, Box<dyn Error>> {
+        let mut stream = self.stream.lock().await;
+        let mut len_bytes = [0; 4];
+        let bytes_read = stream.read(&mut len_bytes).await?;
+        if bytes_read < 4 {
+            return Err("[-] Failed to read the length of the message".into());
+        }
+        let len = u32::from_be_bytes(len_bytes);
+        let mut buffer = vec![0; len as usize];
+        stream.read_exact(&mut buffer).await?;
+        let message = String::from_utf8_lossy(&buffer);
+        Ok(message.to_string())
+    }
+
     pub async fn send_message(&self, message: &str) -> Result<String, Box<dyn Error>> {
         let mut stream = self.stream.lock().await;
         //stream.write_all(&[BYTE_PASSWORD]).await?;
