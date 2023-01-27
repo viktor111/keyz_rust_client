@@ -5,6 +5,7 @@ edition = "2021"
 description = "Official Keyz client for Rust"
 license = "MIT"
 repository = "https://github.com/viktor111/keyz_rust_client.git"
+readme = "README.md"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
