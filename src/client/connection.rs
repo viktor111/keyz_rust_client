@@ -31,6 +31,36 @@ impl Keyz {
         }
     }
 
+    pub async fn set(&self, key: &str, value: &str) -> Result<String, Box<dyn Error>> {
+        let set_msg = format!("SET {} {}", key, value);
+        let response = Self::send_message(self, &set_msg).await.unwrap();
+        if response == "ok" {
+            Ok(response)
+        } else {
+            Err("[-] Failed to set value".into())
+        }
+    }
+
+    pub async fn get(&self, key: &str) -> Result<String, Box<dyn Error>> {
+        let get_msg = format!("GET {}", key);
+        let response = Self::send_message(self, &get_msg).await.unwrap();
+        if response != "null" {
+            Ok(response)
+        } else {
+            Err("[-] Failed to get value".into())
+        }
+    }
+
+    pub async fn delete(&self, key: &str) -> Result<String, Box<dyn Error>> {
+        let delete_msg = format!("DEL {}", key);
+        let response = Self::send_message(self, &delete_msg).await.unwrap();
+        if response == key {
+            Ok(response)
+        } else {
+            Err("[-] Failed to delete value".into())
+        }
+    }
+
     pub async fn dispose(&self) -> Result<(), Box<dyn Error>> {
         let close_msg = "CLOSE";
         Self::send_message(self, close_msg).await?;
