@@ -17,7 +17,7 @@ mod tests {
     #[tokio::test]
     async fn set_value() {
         let keyz = Keyz::new("127.0.0.1".to_owned(), 7667).await;
-        let result = keyz.set("test", "1").await.unwrap();
+        let result = keyz.set("test", "1", None).await.unwrap();
         keyz.dispose().await.unwrap();
 
         assert_eq!(result, "ok");
@@ -26,7 +26,7 @@ mod tests {
     #[tokio::test]
     async fn get_value() {
         let keyz = Keyz::new("127.0.0.1".to_owned(), 7667).await;
-        let req = keyz.set("test", "1").await.unwrap();
+        let req = keyz.set("test", "1", None).await.unwrap();
         let result = keyz.get("test").await.unwrap();
         keyz.dispose().await.unwrap();
 
@@ -36,10 +36,20 @@ mod tests {
     #[tokio::test]
     async fn delete_value() {
         let keyz = Keyz::new("127.0.0.1".to_owned(), 7667).await;
-        let req = keyz.set("test", "1").await.unwrap();
+        let req = keyz.set("test", "1", None).await.unwrap();
         let result = keyz.delete("test").await.unwrap();
         keyz.dispose().await.unwrap();
 
         assert_eq!(result, "test");
+    }
+
+    #[tokio::test]
+    async fn expires_in() {
+        let keyz = Keyz::new("127.0.0.1".to_owned(), 7667).await;
+        let req = keyz.set("test", "1", Some(20)).await.unwrap();
+        let result = keyz.expires_in("test").await.unwrap();
+        keyz.dispose().await.unwrap();
+
+        assert_ne!(result, 0);
     }
 }
